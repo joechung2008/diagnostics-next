@@ -1,0 +1,3 @@
+interface BuildInfoProps {
+  buildVersion: string;
+}
