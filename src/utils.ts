@@ -1,5 +1,3 @@
-import type { KeyedNavLink } from "./types";
-
 export function isExtensionInfo(
   value: Extension | undefined
 ): value is ExtensionInfo {
