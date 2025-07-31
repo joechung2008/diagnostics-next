@@ -1,16 +1,7 @@
-import { Text, makeStyles } from "@fluentui/react-components";
+import { Text } from "@fluentui/react-components";
 import Configuration from "./Configuration";
 import StageDefinition from "./StageDefinition";
-
-const useStyles = makeStyles({
-  root: {
-    maxHeight: "calc(100vh - 116px)",
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  },
-});
+import { useStyles } from "./utils";
 
 const Extension: React.FC<ExtensionProps> = ({
   config,
@@ -18,6 +9,7 @@ const Extension: React.FC<ExtensionProps> = ({
   stageDefinition,
 }) => {
   const styles = useStyles();
+
   return (
     <div className={styles.root}>
       <Text size={600} weight="semibold" block>

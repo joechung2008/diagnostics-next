@@ -1,11 +1,12 @@
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHeaderCell,
   TableBody,
   TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
 } from "@fluentui/react-components";
+import { useStyles } from "./utils";
 
 const BuildInfo: React.FC<BuildInfoProps> = ({ buildVersion }) => {
   const items = [
@@ -15,23 +16,27 @@ const BuildInfo: React.FC<BuildInfoProps> = ({ buildVersion }) => {
     },
   ];
 
+  const styles = useStyles();
+
   return (
-    <Table aria-label="Build Info">
-      <TableHeader>
-        <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Value</TableHeaderCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {items.map((item, idx) => (
-          <TableRow key={idx}>
-            <TableCell>{item.name}</TableCell>
-            <TableCell>{item.value}</TableCell>
+    <div className={styles.root}>
+      <Table aria-label="Build Info">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Value</TableHeaderCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {items.map((item, idx) => (
+            <TableRow key={idx}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.value}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

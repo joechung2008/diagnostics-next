@@ -1,6 +1,6 @@
 "use client";
 
-import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import { FluentProvider, webDarkTheme } from "@fluentui/react-components";
 import "./globals.css";
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
         <title>Azure Portal Extension Dashboard</title>
       </head>
       <body>
-        <FluentProvider theme={webLightTheme}>{children}</FluentProvider>
+        <FluentProvider theme={webDarkTheme}>{children}</FluentProvider>
       </body>
     </html>
   );
