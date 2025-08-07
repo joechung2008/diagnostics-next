@@ -14,7 +14,9 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useReportWebVitals } from "next/web-vitals";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
+import { fetchDiagnostics } from "../utils";
 import BuildInfo from "../BuildInfo";
 import Extension from "../Extension";
 import Extensions from "../Extensions";
@@ -45,12 +47,13 @@ const App: React.FC = () => {
   useReportWebVitals(console.log);
 
   const styles = useStyles();
-  const [diagnostics, setDiagnostics] = useState<Diagnostics>();
   const [extension, setExtension] = useState<ExtensionInfo>();
   const [environment, setEnvironment] = useState<Environment>(
     Environment.Public
   );
   const [selectedTab, setSelectedTab] = useState<string>("extensions");
+
+  const { data: diagnostics } = useSWR(environment, fetchDiagnostics);
 
   const environmentName = useMemo(() => {
     switch (environment) {
@@ -103,13 +106,7 @@ const App: React.FC = () => {
     [environment]
   );
 
-  useEffect(() => {
-    const getDiagnostics = async () => {
-      const response = await fetch(environment);
-      setDiagnostics(await response.json());
-    };
-    getDiagnostics();
-  }, [environment]);
+  // Diagnostics are now fetched using SWR.
 
   if (!diagnostics) {
     return null;
