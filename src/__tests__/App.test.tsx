@@ -1,7 +1,9 @@
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { SWRConfig } from "swr";
 import App from "../app/page";
+import { fetchDiagnostics } from "../utils";
 
 // Mock the child components
 jest.mock("../BuildInfo", () => {
@@ -40,9 +42,10 @@ jest.mock("../ServerInfo", () => {
   };
 });
 
-// Wrapper component to provide Fluent UI context
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <FluentProvider theme={webLightTheme}>{children}</FluentProvider>
+  <SWRConfig value={{ provider: () => new Map() }}>
+    <FluentProvider theme={webLightTheme}>{children}</FluentProvider>
+  </SWRConfig>
 );
 
 // Mock data
@@ -65,12 +68,17 @@ const mockDiagnostics = {
   },
 };
 
+jest.mock("../utils", () => {
+  const original = jest.requireActual("../utils");
+  return {
+    ...original,
+    fetchDiagnostics: jest.fn(),
+  };
+});
+
 describe("App", () => {
   beforeEach(() => {
-    // Mock fetch to return our test data
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockDiagnostics),
-    });
+    (fetchDiagnostics as jest.Mock).mockResolvedValue(mockDiagnostics);
   });
 
   afterEach(() => {
@@ -78,8 +86,10 @@ describe("App", () => {
   });
 
   it("renders loading state initially", () => {
-    // Mock fetch to never resolve
-    global.fetch = jest.fn().mockImplementation(() => new Promise(() => {}));
+    // Mock fetchDiagnostics to never resolve
+    (fetchDiagnostics as jest.Mock).mockImplementation(
+      () => new Promise(() => {})
+    );
 
     render(
       <TestWrapper>
@@ -174,7 +184,7 @@ describe("App", () => {
     );
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect(fetchDiagnostics).toHaveBeenCalledWith(
         "https://hosting.portal.azure.net/api/diagnostics"
       );
     });
@@ -203,9 +213,9 @@ describe("App", () => {
 
     await user.click(screen.getByText("Fairfax"));
 
-    // Verify fetch was called with Fairfax URL
+    // Verify fetchDiagnostics was called with Fairfax URL
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect(fetchDiagnostics).toHaveBeenCalledWith(
         "https://hosting.azureportal.usgovcloudapi.net/api/diagnostics"
       );
     });
@@ -234,9 +244,9 @@ describe("App", () => {
 
     await user.click(screen.getByText("Mooncake"));
 
-    // Verify fetch was called with Mooncake URL
+    // Verify fetchDiagnostics was called with Mooncake URL
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect(fetchDiagnostics).toHaveBeenCalledWith(
         "https://hosting.azureportal.chinacloudapi.cn/api/diagnostics"
       );
     });
@@ -324,9 +334,9 @@ describe("App", () => {
       },
     };
 
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockDiagnosticsWithoutPaas),
-    });
+    (fetchDiagnostics as jest.Mock).mockResolvedValue(
+      mockDiagnosticsWithoutPaas
+    );
 
     render(
       <TestWrapper>
@@ -358,9 +368,9 @@ describe("App", () => {
       },
     };
 
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockDiagnosticsWithInvalidExt),
-    });
+    (fetchDiagnostics as jest.Mock).mockResolvedValue(
+      mockDiagnosticsWithInvalidExt
+    );
 
     render(
       <TestWrapper>
