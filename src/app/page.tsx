@@ -15,6 +15,7 @@ import {
   shorthands,
   tokens,
 } from "@fluentui/react-components";
+import { useReportWebVitals } from "next/web-vitals";
 import { useEffect, useMemo, useState } from "react";
 import BuildInfo from "../BuildInfo";
 import Extension from "../Extension";
@@ -43,6 +44,8 @@ const enum Environment {
 }
 
 const App: React.FC = () => {
+  useReportWebVitals(console.log);
+
   const styles = useStyles();
   const [diagnostics, setDiagnostics] = useState<Diagnostics>();
   const [extension, setExtension] = useState<ExtensionInfo>();
