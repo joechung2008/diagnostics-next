@@ -15,6 +15,7 @@ This document explains how to configure Vercel to automatically run unit tests b
 ```
 
 This configuration:
+
 - Runs tests before building (`npm run test:ci && npm run build`)
 - Uses the `&&` operator so build only proceeds if tests pass
 - If tests fail, the entire deployment is blocked
@@ -30,6 +31,7 @@ This configuration:
 ```
 
 The `test:ci` script includes:
+
 - `--ci`: Optimized for CI environments
 - `--coverage`: Generates coverage reports
 - `--watchAll=false`: Prevents Jest from watching files
@@ -42,29 +44,29 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm ci
-    - name: Run linting
-      run: npm run lint
-    - name: Run tests
-      run: npm run test:ci
-    - name: Build project
-      run: npm run build
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linting
+        run: npm run lint
+      - name: Run tests
+        run: npm run test:ci
+      - name: Build project
+        run: npm run build
 ```
 
 ## How It Works
@@ -95,7 +97,9 @@ The configuration was tested and verified working:
 ## Alternative Methods
 
 ### Method 1: Custom Build Script
+
 Create `scripts/vercel-build.sh`:
+
 ```bash
 #!/bin/bash
 set -e
@@ -106,9 +110,11 @@ npm run build
 ```
 
 ### Method 2: Vercel Build Hook
+
 Use Vercel's build hooks to run custom commands before deployment.
 
 ### Method 3: Git Hooks
+
 Use pre-push hooks to run tests before code reaches the repository.
 
 ## Troubleshooting
@@ -122,6 +128,7 @@ Use pre-push hooks to run tests before code reaches the repository.
 ### Test Environment Issues
 
 If tests fail in CI but pass locally, consider:
+
 - Node.js version differences
 - Environment variables
 - Production vs development React builds

@@ -35,7 +35,9 @@ export function when<T>(condition: boolean, ...args: T[]): T[] {
   return condition ? args : [];
 }
 
-export async function fetchDiagnostics(environment: string): Promise<Diagnostics> {
+export async function fetchDiagnostics(
+  environment: string
+): Promise<Diagnostics> {
   const response = await fetch(environment);
   return response.json();
 }

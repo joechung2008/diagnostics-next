@@ -45,6 +45,7 @@ npm run test:coverage
 ### Test File Patterns
 
 Jest automatically finds and runs files matching these patterns:
+
 - `**/__tests__/**/*.{js,jsx,ts,tsx}`
 - `**/*.{test,spec}.{js,jsx,ts,tsx}`
 
@@ -71,7 +72,7 @@ describe('MyComponent', () => {
         <MyComponent />
       </TestWrapper>
     )
-    
+
     expect(screen.getByText('Expected Text')).toBeInTheDocument()
   })
 })
@@ -80,23 +81,23 @@ describe('MyComponent', () => {
 ### Testing Utility Functions
 
 ```typescript
-import { isExtensionInfo, byKey } from '../utils'
+import { isExtensionInfo, byKey } from "../utils";
 
-describe('utils', () => {
-  describe('isExtensionInfo', () => {
-    it('should return true for valid ExtensionInfo object', () => {
+describe("utils", () => {
+  describe("isExtensionInfo", () => {
+    it("should return true for valid ExtensionInfo object", () => {
       const extensionInfo = {
-        extensionName: 'test-extension',
-        version: '1.0.0'
-      }
-      expect(isExtensionInfo(extensionInfo)).toBe(true)
-    })
+        extensionName: "test-extension",
+        version: "1.0.0",
+      };
+      expect(isExtensionInfo(extensionInfo)).toBe(true);
+    });
 
-    it('should return false for undefined', () => {
-      expect(isExtensionInfo(undefined)).toBe(false)
-    })
-  })
-})
+    it("should return false for undefined", () => {
+      expect(isExtensionInfo(undefined)).toBe(false);
+    });
+  });
+});
 ```
 
 ### Testing Components with Props
@@ -105,13 +106,13 @@ describe('utils', () => {
 describe('BuildInfo', () => {
   it('renders build version correctly', () => {
     const buildVersion = '1.2.3'
-    
+
     render(
       <TestWrapper>
         <BuildInfo buildVersion={buildVersion} />
       </TestWrapper>
     )
-    
+
     expect(screen.getByText('Build Version')).toBeInTheDocument()
     expect(screen.getByText('1.2.3')).toBeInTheDocument()
   })
@@ -125,15 +126,15 @@ import { fireEvent, waitFor } from '@testing-library/react'
 
 it('handles button click', async () => {
   const mockHandler = jest.fn()
-  
+
   render(
     <TestWrapper>
       <MyButton onClick={mockHandler} />
     </TestWrapper>
   )
-  
+
   fireEvent.click(screen.getByRole('button'))
-  
+
   expect(mockHandler).toHaveBeenCalledTimes(1)
 })
 ```
@@ -146,17 +147,17 @@ it('loads data correctly', async () => {
   global.fetch = jest.fn().mockResolvedValue({
     json: jest.fn().mockResolvedValue({ data: 'test' })
   })
-  
+
   render(
     <TestWrapper>
       <MyComponent />
     </TestWrapper>
   )
-  
+
   await waitFor(() => {
     expect(screen.getByText('test')).toBeInTheDocument()
   })
-  
+
   expect(global.fetch).toHaveBeenCalledWith('/api/data')
 })
 ```
@@ -182,13 +183,13 @@ Mock fetch calls in your tests:
 ```typescript
 beforeEach(() => {
   global.fetch = jest.fn().mockResolvedValue({
-    json: jest.fn().mockResolvedValue(mockData)
-  })
-})
+    json: jest.fn().mockResolvedValue(mockData),
+  });
+});
 
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 ```
 
 ### 3. Testing with Fluent UI
@@ -214,7 +215,7 @@ it('has correct accessibility attributes', () => {
       <MyTable />
     </TestWrapper>
   )
-  
+
   const table = screen.getByRole('table')
   expect(table).toHaveAttribute('aria-label', 'Data Table')
 })
@@ -228,10 +229,10 @@ Focus on testing what the component does, not how it does it:
 
 ```typescript
 // Good: Testing behavior
-expect(screen.getByText('Submit')).toBeInTheDocument()
+expect(screen.getByText("Submit")).toBeInTheDocument();
 
 // Avoid: Testing implementation details
-expect(component.state.isSubmitting).toBe(false)
+expect(component.state.isSubmitting).toBe(false);
 ```
 
 ### 2. Use Semantic Queries
@@ -240,13 +241,13 @@ Prefer queries that reflect how users interact with your app:
 
 ```typescript
 // Good: Semantic queries
-screen.getByRole('button', { name: 'Submit' })
-screen.getByLabelText('Email address')
-screen.getByText('Welcome message')
+screen.getByRole("button", { name: "Submit" });
+screen.getByLabelText("Email address");
+screen.getByText("Welcome message");
 
 // Avoid: Implementation-focused queries
-screen.getByClassName('submit-btn')
-screen.getById('email-input')
+screen.getByClassName("submit-btn");
+screen.getById("email-input");
 ```
 
 ### 3. Test Edge Cases
@@ -260,7 +261,7 @@ it('handles empty data gracefully', () => {
       <DataList items={[]} />
     </TestWrapper>
   )
-  
+
   expect(screen.getByText('No items found')).toBeInTheDocument()
 })
 ```
@@ -271,14 +272,14 @@ Each test should verify one specific behavior:
 
 ```typescript
 // Good: Focused test
-it('displays error message when validation fails', () => {
+it("displays error message when validation fails", () => {
   // Test implementation
-})
+});
 
 // Avoid: Testing multiple behaviors
-it('handles form submission and validation and error display', () => {
+it("handles form submission and validation and error display", () => {
   // Too much in one test
-})
+});
 ```
 
 ### 5. Use Descriptive Test Names
@@ -287,13 +288,13 @@ Test names should clearly describe what is being tested:
 
 ```typescript
 // Good: Descriptive names
-it('displays loading spinner while fetching data')
-it('shows error message when API call fails')
-it('enables submit button when form is valid')
+it("displays loading spinner while fetching data");
+it("shows error message when API call fails");
+it("enables submit button when form is valid");
 
 // Avoid: Vague names
-it('works correctly')
-it('handles input')
+it("works correctly");
+it("handles input");
 ```
 
 ## Troubleshooting
@@ -306,10 +307,10 @@ This happens when Fluent UI renders duplicate elements. Use more specific select
 
 ```typescript
 // Instead of:
-screen.getByText('Build Information')
+screen.getByText("Build Information");
 
 // Use:
-screen.getByRole('tab', { name: 'Build Information' })
+screen.getByRole("tab", { name: "Build Information" });
 ```
 
 #### 2. "Cannot find name 'describe'"
@@ -330,7 +331,7 @@ Ensure jest-dom is imported in your setup file:
 
 ```typescript
 // jest.setup.js
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom";
 ```
 
 #### 4. Tests timing out
@@ -338,18 +339,20 @@ import '@testing-library/jest-dom'
 Increase Jest timeout for slow tests:
 
 ```typescript
-jest.setTimeout(10000) // 10 seconds
+jest.setTimeout(10000); // 10 seconds
 ```
 
 ### Debugging Tests
 
 1. **Use screen.debug()** to see the rendered DOM:
+
    ```typescript
    render(<MyComponent />)
    screen.debug() // Prints the DOM to console
    ```
 
 2. **Use screen.logTestingPlaygroundURL()** for interactive debugging:
+
    ```typescript
    render(<MyComponent />)
    screen.logTestingPlaygroundURL()
@@ -370,6 +373,7 @@ npm run test:coverage
 ```
 
 Coverage reports are generated in the `coverage/` directory and show:
+
 - Line coverage
 - Function coverage
 - Branch coverage
