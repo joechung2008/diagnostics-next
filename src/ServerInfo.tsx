@@ -6,7 +6,6 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@fluentui/react-components";
-import { useStyles } from "./utils";
 
 const ServerInfo: React.FC<ServerInfoProps> = ({
   deploymentId,
@@ -42,27 +41,24 @@ const ServerInfo: React.FC<ServerInfoProps> = ({
       value: extensionSync.totalSyncAllCount,
     },
   ];
-  const styles = useStyles();
 
   return (
-    <div className={styles.root}>
-      <Table aria-label="Server Info">
-        <TableHeader>
-          <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Value</TableHeaderCell>
+    <Table aria-label="Server Info">
+      <TableHeader>
+        <TableRow>
+          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Value</TableHeaderCell>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {items.map((item, idx) => (
+          <TableRow key={idx}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.value}</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item, idx) => (
-            <TableRow key={idx}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.value}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
