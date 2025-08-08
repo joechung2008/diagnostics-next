@@ -18,6 +18,7 @@ jest.mock("@fluentui/react-components", () => ({
     </div>
   ),
   webDarkTheme: { name: "webDarkTheme" },
+  useThemeClassName: () => "mock-theme-class",
 }));
 
 describe("RootLayout", () => {
@@ -26,11 +27,32 @@ describe("RootLayout", () => {
   // Note: Testing Next.js layout components that render HTML structure is limited
   // in Jest/RTL environment. We focus on testing the component structure and props.
 
-  it("renders component structure correctly", () => {
+  it("renders html, head, and body structure", () => {
     const { container } = render(<RootLayout>{mockChildren}</RootLayout>);
+    // Check for html, head, and body elements
+    const html = container.querySelector("html");
+    const head = container.querySelector("head");
+    const body = container.querySelector("body");
+    expect(html).toBeInTheDocument();
+    expect(head).toBeInTheDocument();
+    expect(body).toBeInTheDocument();
+  });
 
-    // The component should render without errors
-    expect(container).toBeInTheDocument();
+  it("renders meta tags and title in head", () => {
+    render(<RootLayout>{mockChildren}</RootLayout>);
+    expect(document.querySelector('meta[name="description"]')).toHaveAttribute(
+      "content",
+      "Web site created using create-react-app"
+    );
+    expect(document.querySelector('meta[name="viewport"]')).toHaveAttribute(
+      "content",
+      "width=device-width, initial-scale=1"
+    );
+    expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      "#000000"
+    );
+    expect(document.title).toBe("Azure Portal Extension Dashboard");
   });
 
   it("renders FluentProvider with webDarkTheme", () => {
@@ -53,11 +75,9 @@ describe("RootLayout", () => {
     expect(fluentProvider).toContainElement(children);
   });
 
-  it("renders body element", () => {
+  it("applies theme class to body via ApplyToBody", () => {
     render(<RootLayout>{mockChildren}</RootLayout>);
-
-    const bodyElement = document.body;
-    expect(bodyElement).toBeInTheDocument();
+    expect(document.body.classList.contains("mock-theme-class")).toBe(true);
   });
 
   it("handles multiple children", () => {

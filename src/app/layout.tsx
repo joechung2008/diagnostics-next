@@ -1,6 +1,11 @@
 "use client";
 
-import { FluentProvider, webDarkTheme } from "@fluentui/react-components";
+import {
+  FluentProvider,
+  useThemeClassName,
+  webDarkTheme,
+} from "@fluentui/react-components";
+import { useEffect } from "react";
 import "./globals.css";
 
 export default function RootLayout({
@@ -22,8 +27,27 @@ export default function RootLayout({
         <title>Azure Portal Extension Dashboard</title>
       </head>
       <body>
-        <FluentProvider theme={webDarkTheme}>{children}</FluentProvider>
+        <FluentProvider theme={webDarkTheme}>
+          <ApplyToBody />
+          {children}
+        </FluentProvider>
       </body>
     </html>
   );
+}
+
+// https://github.com/microsoft/fluentui/issues/23626#issuecomment-1162255474
+function ApplyToBody() {
+  const classes = useThemeClassName();
+
+  useEffect(() => {
+    const classList = classes.split(" ").filter((c) => c !== "");
+    document.body.classList.add(...classList);
+
+    return () => {
+      document.body.classList.remove(...classList);
+    };
+  }, [classes]);
+
+  return null;
 }
