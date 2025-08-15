@@ -1,5 +1,14 @@
 # Changelog
 
+## 2025-08-15
+
+- Update outdated packages
+- Switch to Node.js 22.x
+
+## 2025-08-10
+
+- Add CHANGELOG.md
+
 ## 2025-08-07
 
 - Remove no longer required styles
