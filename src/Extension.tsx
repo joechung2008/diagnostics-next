@@ -1,17 +1,14 @@
 import { Text } from "@fluentui/react-components";
 import Configuration from "./Configuration";
 import StageDefinition from "./StageDefinition";
-import { useStyles } from "./utils";
 
 const Extension: React.FC<ExtensionProps> = ({
   config,
   extensionName,
   stageDefinition,
 }) => {
-  const styles = useStyles();
-
   return (
-    <div className={styles.root}>
+    <div className="extension-root grow">
       <Text size={600} weight="semibold" block>
         {extensionName}
       </Text>

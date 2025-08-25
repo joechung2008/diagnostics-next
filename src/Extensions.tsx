@@ -1,19 +1,12 @@
-import { Button, makeStyles } from "@fluentui/react-components";
+import { Button, makeStyles, mergeClasses } from "@fluentui/react-components";
 import { byKey, isExtensionInfo, toNavLink } from "./utils";
 
 const useStyles = makeStyles({
-  root: {
-    maxHeight: "calc(100vh - 116px)",
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "0.5rem",
-  },
   navButton: {
     justifyContent: "flex-start",
     textAlign: "left",
     width: "100%",
-    minHeight: "1.6rem", // Ensure buttons are not squished vertically
+    minHeight: "max-content",
     boxSizing: "border-box",
   },
 });
@@ -26,11 +19,11 @@ const Extensions: React.FC<ExtensionsProps> = ({ extensions, onLinkClick }) => {
     .sort(byKey);
 
   return (
-    <nav className={styles.root} aria-label="Extensions">
+    <nav className="extension-root" aria-label="Extensions">
       {links.map((link) => (
         <Button
           key={link.key}
-          className={styles.navButton}
+          className={mergeClasses("extension-nav-button", styles.navButton)}
           appearance="subtle"
           onClick={(e) => onLinkClick?.(e, link)}
         >

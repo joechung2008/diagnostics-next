@@ -11,7 +11,6 @@ import {
   TabList,
   Toolbar,
   ToolbarButton,
-  makeStyles,
 } from "@fluentui/react-components";
 import { useReportWebVitals } from "next/web-vitals";
 import { useMemo, useState } from "react";
@@ -23,20 +22,6 @@ import Extensions from "../Extensions";
 import ServerInfo from "../ServerInfo";
 import { isExtensionInfo } from "../utils";
 
-const useStyles = makeStyles({
-  tabPanel: {
-    padding: "10px",
-  },
-  stack: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "1rem",
-  },
-  grow: {
-    flexGrow: 1,
-  },
-});
-
 const enum Environment {
   Public = "https://hosting.portal.azure.net/api/diagnostics",
   Fairfax = "https://hosting.azureportal.usgovcloudapi.net/api/diagnostics",
@@ -46,7 +31,6 @@ const enum Environment {
 const App: React.FC = () => {
   useReportWebVitals(console.log);
 
-  const styles = useStyles();
   const [extension, setExtension] = useState<ExtensionInfo>();
   const [environment, setEnvironment] = useState<Environment>(
     Environment.Public
@@ -124,7 +108,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="flexbox">
       <Toolbar>
         <Menu>
           <MenuTrigger disableButtonEnhancement>
@@ -179,31 +163,24 @@ const App: React.FC = () => {
         <Tab value="server">Server Information</Tab>
       </TabList>
       {selectedTab === "extensions" && (
-        <div className={styles.tabPanel}>
-          <div className={styles.stack}>
-            <div>
-              <Extensions
-                extensions={extensions}
-                onLinkClick={handleLinkClick}
-              />
-            </div>
-            <div className={styles.grow}>
-              {extension && <Extension {...extension} />}
-            </div>
+        <div className="tab-panel">
+          <div className="stack">
+            <Extensions extensions={extensions} onLinkClick={handleLinkClick} />
+            {extension && <Extension {...extension} />}
           </div>
         </div>
       )}
       {selectedTab === "build" && (
-        <div className={styles.tabPanel}>
+        <div className="tab-panel">
           <BuildInfo {...buildInfo} />
         </div>
       )}
       {selectedTab === "server" && (
-        <div className={styles.tabPanel}>
+        <div className="tab-panel">
           <ServerInfo {...serverInfo} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
