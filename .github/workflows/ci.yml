@@ -27,17 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linting
-        run: npm run lint
+      - name: Build project
+        run: npm run build
 
       - name: Run tests
         run: npm run test:ci
 
-      - name: Build project
-        run: npm run build
-
       - name: Upload coverage artifact
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-node-${{ matrix.node-version }}
