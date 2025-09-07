@@ -1,1 +1,0 @@
-type ExtensionProps = ExtensionInfo;
