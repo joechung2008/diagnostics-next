@@ -3,6 +3,12 @@ body {
   height: 100%;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family:
@@ -31,6 +37,7 @@ body {
 .flexbox {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   height: 100vh;
 }
 
@@ -46,7 +53,6 @@ body {
 }
 
 .tab-panel {
-  box-sizing: border-box;
   flex: 1;
   overflow-y: auto;
 }

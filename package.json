@@ -4,6 +4,7 @@
     "@fluentui/react-components": "^9.69.0",
     "next": "^14.2.32",
     "react": "^18",
+    "react-compiler-runtime": "^19.1.0-rc.3",
     "react-dom": "^18",
     "swr": "^2.3.6"
   },
@@ -15,6 +16,7 @@
     "@types/node": "^22.18.1",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18",
+    "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "cross-env": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "^14.2.32",
@@ -28,7 +30,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
     "format": "npx prettier --write .",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "next lint",
