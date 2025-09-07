@@ -1,4 +1,4 @@
-import { isExtensionInfo, byKey, toNavLink, when } from "../utils";
+import { byKey, isExtensionInfo, toNavLink } from "../utils";
 
 describe("utils", () => {
   describe("isExtensionInfo", () => {
