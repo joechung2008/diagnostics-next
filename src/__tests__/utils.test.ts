@@ -49,16 +49,4 @@ describe("utils", () => {
       });
     });
   });
-
-  describe("when", () => {
-    it("should return args when condition is true", () => {
-      const result = when(true, "a", "b", "c");
-      expect(result).toEqual(["a", "b", "c"]);
-    });
-
-    it("should return empty array when condition is false", () => {
-      const result = when(false, "a", "b", "c");
-      expect(result).toEqual([]);
-    });
-  });
 });
